@@ -27,7 +27,7 @@ function XnorTemporalConvolution:updateGradInput(input, gradOutput)
     local multi = self.norm + 1/n
 
     self.weight:copy(self.weightOrg)
-    self.gradWeight:cmul(multi)
+    self.gradWeight:mul(multi)
     return self.gradInput
 end
 

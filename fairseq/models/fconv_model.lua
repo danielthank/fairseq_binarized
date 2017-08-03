@@ -215,7 +215,7 @@ FConvModel.makeTemporalConv = argcheck{
                 conv:add(BinarizedNeurons())
             end
         elseif binaryConf.binaryXnor then
-            fconv = XnorTemporalConvolution(ninput, noutput, kwidth, 1, pad)
+            conv = XnorTemporalConvolution(ninput, noutput, kwidth, 1, pad)
         else
             conv = nn.WeightNorm(
                 nn.TemporalConvolutionTBC(ninput, noutput, kwidth, pad),
