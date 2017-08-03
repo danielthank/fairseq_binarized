@@ -103,12 +103,17 @@ cmd:option('-fconv_klmwidths', '',
     'comma-separated list of kernel widths for convolutional language model')
 cmd:option('-binaryWeight', false, 'apply binarization to weights')
 cmd:option('-binaryActivation', false, 'apply binarization to activations')
+cmd:option('-binaryXnor', false, 'apply Xnornet')
 
 local config = cmd:parse(arg)
 
-config.binaryConf = {binaryWeight = config.binaryWeight, binaryActivation = config.binaryActivation}
+config.binaryConf = {
+    binaryWeight = config.binaryWeight,
+    binaryActivation = config.binaryActivation,
+    binaryXnor = config.binaryXnor}
 config.binaryWeight = nil
 config.binaryActivation = nil
+config.binaryXnor = nil
 
 if config.dropout_src < 0 then config.dropout_src = config.dropout end
 if config.dropout_tgt < 0 then config.dropout_tgt = config.dropout end

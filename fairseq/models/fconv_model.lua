@@ -214,9 +214,8 @@ FConvModel.makeTemporalConv = argcheck{
                 conv:add(nn.HardTanh())
                 conv:add(BinarizedNeurons())
             end
-        elseif binaryConf.xnorNet then
-            conv = nn.Sequential()
-            conv:add(XnorTemporalConvolution(ninput, noutput, kwidth, 1, pad))
+        elseif binaryConf.binaryXnor then
+            fconv = XnorTemporalConvolution(ninput, noutput, kwidth, 1, pad)
         else
             conv = nn.WeightNorm(
                 nn.TemporalConvolutionTBC(ninput, noutput, kwidth, pad),
@@ -256,7 +255,7 @@ FConvModel.makeTranspose = argcheck{
     {name='self', type='FConvModel'},
     {name='binaryConf', type='table'},
     call = function(self, binaryConf)
-        if binaryConf.binaryWeight then
+        if binaryConf.binaryWeight or binaryConf.binaryXnor then
             return nn.Identity()
         else
             return nn.Transpose({1, 2})
