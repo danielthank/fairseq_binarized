@@ -19,8 +19,10 @@ require 'rnnlib'
 require 'fairseq.modules'
 require 'fairseq.models.BinaryTemporalConvolution'
 require 'fairseq.models.XnorTemporalConvolution'
+require 'fairseq.models.XnorScaling'
 require 'fairseq.models.MyBatchNormalization'
 require 'fairseq.models.BinarizedNeurons'
+
 local pltablex = require 'pl.tablex'
 local plutils = require 'pl.utils'
 local argcheck = require 'argcheck'
@@ -216,7 +218,13 @@ FConvModel.makeTemporalConv = argcheck{
                 conv:add(BinarizedNeurons())
             end
         elseif binaryConf.binaryXnor then
-            conv = XnorTemporalConvolution(ninput, noutput, kwidth, 1, pad)
+            conv = nn.Sequential()
+            conv:add(XnorTemporalConvolution(ninput, noutput, kwidth, 1, pad))
+            if binaryConf.binaryActivation then
+                conv:add(XnorScaling())
+                conv:add(nn.HardTanh())
+                conv:add(BinarizedNeurons())
+            end
         else
             conv = nn.WeightNorm(
                 nn.TemporalConvolutionTBC(ninput, noutput, kwidth, pad),
