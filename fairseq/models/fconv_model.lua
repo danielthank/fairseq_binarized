@@ -61,7 +61,8 @@ FConvModel.__init = argcheck{
         local decoder = mutils.findAnnotatedNode(self:network(), 'decoder')
         local context = 1
         decoder:apply(function(m)
-            if torch.isTypeOf(m, 'BinaryTemporalConvolution') then
+            if torch.isTypeOf(m, 'BinaryTemporalConvolution') or
+                torch.isTypeOf(m, 'XnorTemporalConvolution') then
                 context = context + m.kH - 1
             elseif torch.isTypeOf(m, 'nn.TemporalConvolutionTBC') then
                 context = context + m.kw - 1

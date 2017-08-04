@@ -1,12 +1,12 @@
 #/usr/bin/env bash
-for nenc in 1 2 3 4
-do
-    for ndec in 1 2 3 4
-    do
+for nenc in 1 2 3 4; do
+    for ndec in 1 2 3 4; do
+        if [ $nenc -eq 1 ] && [ $ndec -eq 1 ]; then
+            continue
+        fi
         echo "Processing nenc = $nenc, ndec = $ndec"
         TRAIN_DIR="trainings/fconv_xnor$nenc$ndec"
-        if [ -d $TRAIN_DIR ]
-        then
+        if [ -d $TRAIN_DIR ]; then
             rm -rf $TRAIN_DIR
         fi
         mkdir $TRAIN_DIR
